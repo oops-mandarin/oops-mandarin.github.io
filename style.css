@@ -30,3 +30,8 @@ h3{font-size:1.3rem;margin:1.4em 0 .3em}
 .quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
 .quotes blockquote{margin:0;background:var(--paper);border-radius:6px 22px 6px 22px}
 cite{display:block;margin-top:.6em;font-style:normal;font-weight:700;color:var(--teal)}
+.formkit-form{max-width:520px !important;margin:0 !important;border:0 !important;background:transparent !important}
+.formkit-form [data-style="clean"]{padding:0 !important}
+.formkit-form .formkit-header{display:none !important}
+.formkit-form .formkit-subheader{margin:0 0 12px !important}
+.formkit-form .formkit-guarantee,.formkit-form .formkit-powered-by-convertkit-container{margin:10px 0 0 !important}
