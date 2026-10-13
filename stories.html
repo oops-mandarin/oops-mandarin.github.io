@@ -6,15 +6,29 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css"></head><body>
-<header><a href="index.html"><img src="images/logo.jpg" alt="Oops! Mandarin logo"></a><nav><a href="index.html">Home</a><a href="about.html">About</a><a href="stories.html" aria-current="page">Student Stories</a><a href="resources.html">Resources</a><a href="courses.html">Courses</a></nav></header>
+<header><a href="index.html"><img src="images/logo.jpg" alt="Oops! Mandarin logo"></a><nav><a href="index.html">Home</a><a href="about.html">About</a><a href="courses.html">Courses</a><a href="stories.html" aria-current="page">Student Stories</a><a href="resources.html">Resources</a></nav></header>
 <main>
 <h1>Student Stories</h1>
 <article class="panel"><h2>Learning Mandarin to talk with her patients</h2>
+<p class="date">Written on <time datetime="2026-10-12">October 12, 2026</time></p>
 <p>After a full day of caring for patients and their families, most people would want to rest. But Dr. L., a physician, spends her time in Mandarin class because she wants to understand her Mandarin-speaking patients and talk with them in their own language.</p>
 <p>In our lessons, she is always the one asking how my week has been, whether I've eaten, where I went and what I did. Her patience and warmth show up in everything she does. Recently she told me she would love to talk about values and ideas, not just everyday phrases. That takes time and vocabulary, so we are building both, one sentence at a time.</p>
 <p>To help, I turned the sentences she might say at work into a comic, and we practice them line by line. She told me it's useful because she can use it in real situations.</p>
 <figure><img class="wide" src="images/comic.png" alt="Six-panel comic of a doctor and a patient practicing a clinic conversation in English"><figcaption>A comic made from sentences she might say at work, for practicing line by line.</figcaption></figure>
-<blockquote>“Very friendly and kind, patient with me and happy to practice any topic in Mandarin at my pace. Great use of visual learning tools, really appreciate Jany's time and expertise.”<br>Dr. L., Mandarin learner</blockquote></article>
+<blockquote>“Very friendly and kind, patient with me and happy to practice any topic in Mandarin at my pace. Great use of visual learning tools, really appreciate Jany's time and expertise.”<br>Dr. L., Mandarin learner</blockquote><div class="share" data-title="Learning Mandarin to talk with her patients"><strong>Share this story:</strong><br></div>
+</article>
 <p>More stories are coming soon.</p>
+<script>
+document.querySelectorAll('.share').forEach(function(d){
+var page=location.href.split('#')[0],u=encodeURIComponent(page),t=encodeURIComponent(d.dataset.title);
+function link(h,l){var e=document.createElement('a');e.href=h;e.textContent=l;e.target='_blank';e.rel='noopener';e.className='pill';d.appendChild(e)}
+function btn(l,fn){var e=document.createElement('button');e.type='button';e.className='pill';e.textContent=l;e.onclick=function(){fn(e)};d.appendChild(e)}
+link('https://www.facebook.com/sharer/sharer.php?u='+u,'Facebook');
+link('https://www.linkedin.com/sharing/share-offsite/?url='+u,'LinkedIn');
+link('mailto:?subject='+t+'&body='+u,'Email');
+btn('Copy link',function(e){navigator.clipboard.writeText(page).then(function(){e.textContent='Link copied!'})});
+if(navigator.share){btn('Instagram & more',function(){navigator.share({title:d.dataset.title,url:page})})}
+});
+</script>
 </main>
-<footer><a href="https://www.instagram.com/oops_mandarin/">Instagram</a><a href="https://www.youtube.com/@oops_mandarin/featured">YouTube</a><a href="https://buymeacoffee.com/gj_am_i">Buy me a coffee</a><p>&copy; 2026 Oops! Mandarin</p></footer></body></html>
+<footer><nav><a href="index.html">Home</a><a href="about.html">About</a><a href="courses.html">Courses</a><a href="stories.html" aria-current="page">Student Stories</a><a href="resources.html">Resources</a></nav><p><a href="https://www.instagram.com/oops_mandarin/">Instagram</a><a href="https://www.youtube.com/@oops_mandarin/featured">YouTube</a><a href="https://buymeacoffee.com/gj_am_i">Buy me a coffee</a></p><p>&copy; 2026 Oops! Mandarin</p></footer></body></html>
