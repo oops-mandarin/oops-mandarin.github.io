@@ -8,8 +8,8 @@ a{color:var(--orange);font-weight:700}
 a:focus-visible,.btn:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
 header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 20px;padding:10px 5vw;background:var(--teal)}
 header img{height:54px;border-radius:50%;display:block}
-nav a{margin-right:20px;color:var(--cream);text-decoration:none;font-weight:700}
-nav a:last-child{margin-right:0}
+nav{display:flex;flex-wrap:wrap;gap:4px 20px}
+nav a{white-space:nowrap;color:var(--cream);text-decoration:none;font-weight:700}
 nav a:hover,nav a[aria-current]{color:#fff;border-bottom:3px solid var(--orange)}
 main{max-width:980px;margin:0 auto;padding:24px 5vw 40px}
 .hero{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center}
@@ -35,3 +35,16 @@ cite{display:block;margin-top:.6em;font-style:normal;font-weight:700;color:var(-
 .formkit-form .formkit-header{display:none !important}
 .formkit-form .formkit-subheader{margin:0 0 12px !important}
 .formkit-form .formkit-guarantee,.formkit-form .formkit-powered-by-convertkit-container{margin:10px 0 0 !important}
+footer nav{justify-content:center;margin-bottom:10px}
+footer nav a{margin:0}
+footer p{margin:6px 0}
+.date{font-size:.95rem;color:var(--teal);margin:-.4em 0 1em}
+.pill{display:inline-block;background:var(--teal);color:#fff;border:0;border-radius:999px;padding:8px 18px;margin:6px 8px 0 0;font:700 .95rem Nunito,system-ui,sans-serif;text-decoration:none;cursor:pointer}
+.pill:hover{background:var(--orange)}
+.pill:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.share{margin-top:24px}
+.ic{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;margin:8px 10px 0 0;border:0;border-radius:50%;background:var(--teal);cursor:pointer;padding:0}
+.ic svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ic:hover{background:var(--orange)}
+.ic:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.share-msg{display:block;min-height:1.5em;margin-top:8px;font-size:.95rem}

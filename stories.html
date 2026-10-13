@@ -21,13 +21,23 @@
 <script>
 document.querySelectorAll('.share').forEach(function(d){
 var page=location.href.split('#')[0],u=encodeURIComponent(page),t=encodeURIComponent(d.dataset.title);
-function link(h,l){var e=document.createElement('a');e.href=h;e.textContent=l;e.target='_blank';e.rel='noopener';e.className='pill';d.appendChild(e)}
-function btn(l,fn){var e=document.createElement('button');e.type='button';e.className='pill';e.textContent=l;e.onclick=function(){fn(e)};d.appendChild(e)}
-link('https://www.facebook.com/sharer/sharer.php?u='+u,'Facebook');
-link('https://www.linkedin.com/sharing/share-offsite/?url='+u,'LinkedIn');
-link('mailto:?subject='+t+'&body='+u,'Email');
-btn('Copy link',function(e){navigator.clipboard.writeText(page).then(function(){e.textContent='Link copied!'})});
-if(navigator.share){btn('Instagram & more',function(){navigator.share({title:d.dataset.title,url:page})})}
+var I={
+facebook:'<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+linkedin:'<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>',
+instagram:'<rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.4A4 4 0 1 1 12.6 8 4 4 0 0 1 16 11.4z"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>',
+email:'<rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/>',
+link:'<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>'};
+var msg=document.createElement('span');msg.className='share-msg';msg.setAttribute('aria-live','polite');
+function icon(name,label,el){el.className='ic';el.setAttribute('aria-label',label);el.title=label;el.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+I[name]+'</svg>';d.insertBefore(el,msg)}
+function link(name,label,h){var a=document.createElement('a');a.href=h;a.target='_blank';a.rel='noopener';icon(name,label,a)}
+function btn(name,label,fn){var b=document.createElement('button');b.type='button';b.onclick=fn;icon(name,label,b)}
+function copy(note){navigator.clipboard.writeText(page).then(function(){msg.textContent=note})}
+d.appendChild(msg);
+link('facebook','Share on Facebook','https://www.facebook.com/sharer/sharer.php?u='+u);
+link('linkedin','Share on LinkedIn','https://www.linkedin.com/sharing/share-offsite/?url='+u);
+btn('instagram','Share on Instagram',function(){if(navigator.share){navigator.share({title:d.dataset.title,url:page})}else{copy('Link copied. Paste it into Instagram.')}});
+link('email','Share by email','mailto:?subject='+t+'&body='+u);
+btn('link','Copy link',function(){copy('Link copied!')});
 });
 </script>
 </main>
