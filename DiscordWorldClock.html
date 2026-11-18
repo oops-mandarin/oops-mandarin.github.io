@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Community World Clock</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Quicksand -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        milky: {
+                            50: '#FDFBF7',
+                            100: '#F9F4EB',
+                            200: '#F2E8D5',
+                            300: '#EADBB9',
+                        },
+                        cozy: {
+                            amber: '#E59866',
+                            orange: '#D35400',
+                            brown: '#5D4037',
+                            cream: '#FFFBF0',
+                            card: '#FFFDF9'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Quicksand', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9F4EB;
+            color: #5D4037;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Quicksand', sans-serif;
+        }
+        /* Custom smooth scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F2E8D5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E59866;
+            border-radius: 4px;
+        }
+        .pulse-subtle {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between bg-milky-100 text-cozy-brown selection:bg-cozy-amber selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="w-full bg-milky-200/60 backdrop-blur-md border-b border-cozy-amber/20 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cozy-amber to-cozy-orange flex items-center justify-center text-white shadow-md">
+                    <i class="fa-solid fa-globe text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold font-heading text-cozy-brown tracking-tight">Global Discord Clock</h1>
+                    <p class="text-xs text-cozy-brown/70 font-medium">Never miss a hangout or class time again!</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="openAddModal()" class="hidden sm:flex items-center space-x-2 bg-cozy-amber hover:bg-cozy-orange text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-sm transition-all duration-200 active:scale-95">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Suggest Region</span>
+                </button>
+                <div class="bg-white/80 border border-cozy-amber/30 px-3 py-1.5 rounded-xl text-xs font-semibold text-cozy-brown flex items-center space-x-2 shadow-sm">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                    <span>Live Sync Active</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow space-y-8">
+
+        <!-- Welcome Banner & Taiwan Anchor Time -->
+        <section class="bg-gradient-to-r from-amber-100/80 via-orange-50/70 to-milky-200 rounded-3xl p-6 sm:p-8 border border-cozy-amber/20 shadow-sm relative overflow-hidden">
+            <div class="absolute right-0 top-0 translate-x-8 -translate-y-8 w-64 h-64 bg-cozy-amber/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-7 space-y-3">
+                    <div class="inline-flex items-center space-x-2 bg-cozy-amber/20 text-cozy-orange px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase">
+                        <i class="fa-solid fa-anchor"></i>
+                        <span>Community Reference Time</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold font-heading text-cozy-brown">
+                        Hello, Discord Fam! 👋
+                    </h2>
+                    <p class="text-cozy-brown/80 text-sm sm:text-base leading-relaxed">
+                        Our main server anchor time is set to <strong class="text-cozy-orange font-semibold">Taiwan Standard Time (GMT+8)</strong>. Explore all our international member timezones below or use the quick converter to check event schedules!
+                    </p>
+                </div>
+
+                <!-- Live Taiwan Clock Widget -->
+                <div class="lg:col-span-5 bg-white/90 backdrop-blur-sm rounded-2xl p-5 border border-cozy-amber/30 shadow-md flex items-center justify-between">
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2 text-xs font-bold text-cozy-orange uppercase tracking-wider">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Taiwan (Anchor Base)</span>
+                        </div>
+                        <div id="taiwan-time" class="text-3xl sm:text-4xl font-bold font-heading text-cozy-brown tracking-tight">
+                            --:--:--
+                        </div>
+                        <div id="taiwan-date" class="text-xs text-cozy-brown/60 font-medium">
+                            Loading date...
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center text-cozy-orange text-xl shadow-inner">
+                        🇹🇼
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Map & Region Selector Hub -->
+        <section class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-xl font-bold font-heading text-cozy-brown">Community Member Timezones</h3>
+                    <p class="text-xs text-cozy-brown/70">Check real-time local times for all our international members.</p>
+                </div>
+                <!-- Search & Filter bar -->
+                <div class="flex items-center space-x-2">
+                    <div class="relative w-full sm:w-64">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-cozy-brown/40">
+                            <i class="fa-solid fa-search"></i>
+                        </span>
+                        <input type="text" id="searchInput" oninput="filterLocations()" placeholder="Search country or city..." class="w-full pl-9 pr-4 py-2 bg-white/80 border border-cozy-amber/30 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cozy-amber text-cozy-brown placeholder-cozy-brown/40 shadow-sm">
+                    </div>
+                    <button onclick="resetFilter()" class="bg-white/80 border border-cozy-amber/30 px-3 py-2 rounded-xl text-sm font-medium text-cozy-brown hover:bg-cozy-amber/10 transition-colors shadow-sm">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Region Cards Grid -->
+            <div id="locations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Dynamically populated via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Interactive Time Converter Tool -->
+        <section class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 border border-cozy-amber/30 shadow-sm space-y-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-cozy-orange text-lg">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold font-heading text-cozy-brown">Quick Time Converter</h3>
+                    <p class="text-xs text-cozy-brown/70">Pick any Taiwan time to check what time it corresponds to in our community regions.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end bg-milky-50 p-5 rounded-2xl border border-cozy-amber/20">
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-cozy-brown uppercase tracking-wider">Select Taiwan Time</label>
+                    <input type="time" id="converterInputTime" value="12:00" onchange="convertTime()" class="w-full px-4 py-2.5 bg-white border border-cozy-amber/30 rounded-xl text-sm font-semibold text-cozy-brown focus:outline-none focus:ring-2 focus:ring-cozy-amber shadow-sm">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-cozy-brown uppercase tracking-wider">Select Target Region</label>
+                    <select id="converterSelectRegion" onchange="convertTime()" class="w-full px-4 py-2.5 bg-white border border-cozy-amber/30 rounded-xl text-sm font-semibold text-cozy-brown focus:outline-none focus:ring-2 focus:ring-cozy-amber shadow-sm">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+                <div class="bg-cozy-amber/10 border border-cozy-amber/30 p-3 rounded-xl flex flex-col justify-center">
+                    <span class="text-[10px] font-bold text-cozy-orange uppercase tracking-wider">Converted Local Time</span>
+                    <div id="converterResult" class="text-lg font-bold font-heading text-cozy-brown">--:--</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Discord Event Scheduler Helper -->
+        <section class="bg-gradient-to-br from-amber-50 to-orange-50/50 rounded-3xl p-6 sm:p-8 border border-cozy-amber/30 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="space-y-2 text-center sm:text-left">
+                <div class="inline-flex items-center space-x-2 text-xs font-bold text-cozy-orange uppercase tracking-wider bg-white/80 px-3 py-1 rounded-full border border-cozy-amber/20">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Discord Events Tip</span>
+                </div>
+                <h3 class="text-xl font-bold font-heading text-cozy-brown">Planning a Voice Call or Server Event?</h3>
+                <p class="text-xs sm:text-sm text-cozy-brown/80 max-w-xl">
+                    Always schedule your Discord events using <strong class="text-cozy-orange">Taiwan Time (GMT+8)</strong> as the anchor, or paste this quick summary in chat so members know their local time!
+                </p>
+            </div>
+            <button onclick="copyDiscordSummary()" class="whitespace-nowrap bg-cozy-brown hover:bg-cozy-brown/90 text-milky-50 px-5 py-3 rounded-xl text-sm font-semibold shadow-md transition-all duration-200 active:scale-95 flex items-center space-x-2">
+                <i class="fa-solid fa-copy"></i>
+                <span>Copy Summary for Discord</span>
+            </button>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-milky-200/50 border-t border-cozy-amber/20 py-6 mt-12 text-center text-xs text-cozy-brown/70 space-y-2">
+        <p>Made with 💛 for your amazing international Discord community.</p>
+        <p class="text-[11px] text-cozy-brown/50">Times update automatically in real-time according to system timezones.</p>
+    </footer>
+
+    <!-- Suggest Region Modal -->
+    <div id="addModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 border border-cozy-amber/30 shadow-2xl space-y-4 animate-in fade-in zoom-in duration-200">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold font-heading text-cozy-brown">Add / Suggest Region</h3>
+                <button onclick="closeAddModal()" class="w-8 h-8 rounded-full bg-milky-100 flex items-center justify-center text-cozy-brown hover:bg-milky-200 transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p class="text-xs text-cozy-brown/70">Add a new location to your local browser list so members from other regions can check their time instantly.</p>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-cozy-brown uppercase mb-1">Country / Region Name</label>
+                    <input type="text" id="newCountryName" placeholder="e.g. Canada (Vancouver)" class="w-full px-3 py-2 border border-cozy-amber/30 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cozy-amber">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-cozy-brown uppercase mb-1">Emoji Flag</label>
+                    <input type="text" id="newCountryEmoji" placeholder="🇨🇦" class="w-full px-3 py-2 border border-cozy-amber/30 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cozy-amber">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-cozy-brown uppercase mb-1">Timezone String (IANA)</label>
+                    <input type="text" id="newCountryTz" placeholder="e.g. America/Vancouver" class="w-full px-3 py-2 border border-cozy-amber/30 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cozy-amber">
+                    <p class="text-[10px] text-cozy-brown/50 mt-1">Format example: America/New_York, Europe/London, Asia/Tokyo</p>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeAddModal()" class="px-4 py-2 rounded-xl text-sm font-medium text-cozy-brown hover:bg-milky-100 transition-colors">Cancel</button>
+                <button onclick="addNewLocation()" class="px-4 py-2 bg-cozy-amber hover:bg-cozy-orange text-white rounded-xl text-sm font-semibold shadow-sm transition-colors">Add Location</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-cozy-brown text-milky-50 px-4 py-3 rounded-2xl shadow-xl text-sm font-medium transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center space-x-2">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toastMsg">Action completed successfully!</span>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Community member locations (Taiwan removed from list to avoid redundancy)
+        let locations = [
+            {
+                id: 'minnesota',
+                name: 'United States',
+                region: 'Minnesota (CST/CDT)',
+                emoji: '🇺🇸',
+                timezone: 'America/Chicago',
+                tag: 'North America'
+            },
+            {
+                id: 'boston',
+                name: 'United States',
+                region: 'Boston (EST/EDT)',
+                emoji: '🇺🇸',
+                timezone: 'America/New_York',
+                tag: 'North America'
+            },
+            {
+                id: 'nz',
+                name: 'New Zealand',
+                region: 'Auckland / NZST',
+                emoji: '🇳🇿',
+                timezone: 'Pacific/Auckland',
+                tag: 'Oceania'
+            },
+            {
+                id: 'ph',
+                name: 'Philippines',
+                region: 'Manila / PHT',
+                emoji: '🇵🇭',
+                timezone: 'Asia/Manila',
+                tag: 'Asia'
+            },
+            {
+                id: 'id',
+                name: 'Indonesia',
+                region: 'Jakarta / WIB',
+                emoji: '🇮🇩',
+                timezone: 'Asia/Jakarta',
+                tag: 'Asia'
+            },
+            {
+                id: 'uae',
+                name: 'United Arab Emirates',
+                region: 'Dubai / GST',
+                emoji: '🇦🇪',
+                timezone: 'Asia/Dubai',
+                tag: 'Middle East'
+            }
+        ];
+
+        // Initialize App on Load
+        window.onload = function() {
+            renderLocations(locations);
+            populateConverterSelect();
+            updateClocks();
+            // Update every second
+            setInterval(updateClocks, 1000);
+            // Set default time in converter to current hours:minutes
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('converterInputTime').value = `${hours}:${minutes}`;
+            convertTime();
+        };
+
+        // Render Location Cards
+        function renderLocations(dataToRender) {
+            const grid = document.getElementById('locations-grid');
+            grid.innerHTML = '';
+
+            if(dataToRender.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-cozy-brown/60 space-y-2">
+                        <i class="fa-solid fa-map-location-dot text-3xl"></i>
+                        <p class="text-sm font-medium">No regions found matching your search.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            dataToRender.forEach(loc => {
+                const card = document.createElement('div');
+                card.className = `bg-white/90 backdrop-blur-sm rounded-2xl p-5 border border-cozy-amber/30 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between space-y-4 relative group overflow-hidden`;
+                
+                card.innerHTML = `
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-cozy-amber/5 rounded-bl-full pointer-events-none transition-transform group-hover:scale-110"></div>
+                    
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-cozy-amber/20 flex items-center justify-center text-2xl shadow-inner">
+                                ${loc.emoji}
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-cozy-orange uppercase tracking-wider">${loc.tag}</span>
+                                <h4 class="text-base font-bold font-heading text-cozy-brown">${loc.name}</h4>
+                                <p class="text-xs text-cozy-brown/60 font-medium">${loc.region}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-milky-50 rounded-xl p-3.5 border border-cozy-amber/20 flex items-center justify-between">
+                        <div>
+                            <div class="text-[10px] font-bold uppercase tracking-wider text-cozy-brown/60">Local Time</div>
+                            <div id="time-${loc.id}" class="text-2xl font-bold font-heading text-cozy-brown tracking-tight">--:--:--</div>
+                        </div>
+                        <div class="text-right">
+                            <div id="diff-${loc.id}" class="text-xs font-semibold text-cozy-orange bg-cozy-amber/10 px-2.5 py-1 rounded-lg">Calculating...</div>
+                            <div id="date-${loc.id}" class="text-[10px] text-cozy-brown/60 mt-1">---</div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Populate Converter Dropdown
+        function populateConverterSelect() {
+            const select = document.getElementById('converterSelectRegion');
+            select.innerHTML = '';
+            locations.forEach(loc => {
+                const opt = document.createElement('option');
+                opt.value = loc.timezone;
+                opt.textContent = `${loc.emoji} ${loc.name} (${loc.region})`;
+                select.appendChild(opt);
+            });
+        }
+
+        // Real-Time Clocks Update Function
+        function updateClocks() {
+            const now = new Date();
+
+            // 1. Update Taiwan Anchor Clock
+            try {
+                const twTimeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Taipei', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const twDateStr = now.toLocaleDateString('en-US', { timeZone: 'Asia/Taipei', weekday: 'short', month: 'short', day: 'numeric' });
+                document.getElementById('taiwan-time').textContent = twTimeStr;
+                document.getElementById('taiwan-date').textContent = twDateStr;
+            } catch(e) {
+                console.error(e);
+            }
+
+            // 2. Update each location card
+            locations.forEach(loc => {
+                const timeEl = document.getElementById(`time-${loc.id}`);
+                const dateEl = document.getElementById(`date-${loc.id}`);
+                const diffEl = document.getElementById(`diff-${loc.id}`);
+
+                if (!timeEl) return;
+
+                try {
+                    const locTimeStr = now.toLocaleTimeString('en-US', { timeZone: loc.timezone, hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    const locDateStr = now.toLocaleDateString('en-US', { timeZone: loc.timezone, weekday: 'short', month: 'short', day: 'numeric' });
+                    
+                    timeEl.textContent = locTimeStr;
+                    dateEl.textContent = locDateStr;
+
+                    // Calculate hour difference relative to Taiwan (Asia/Taipei = UTC+8)
+                    const twTimeObj = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Taipei' }));
+                    const locTimeObj = new Date(now.toLocaleString('en-US', { timeZone: loc.timezone }));
+                    const diffHours = (locTimeObj - twTimeObj) / (1000 * 60 * 60);
+
+                    if (diffHours === 0) {
+                        diffEl.textContent = 'Same as TW';
+                    } else if (diffHours > 0) {
+                        diffEl.textContent = `+${diffHours.toFixed(diffHours % 1 !== 0 ? 1 : 0)}h from TW`;
+                    } else {
+                        diffEl.textContent = `${diffHours.toFixed(diffHours % 1 !== 0 ? 1 : 0)}h from TW`;
+                    }
+                } catch(e) {
+                    timeEl.textContent = 'Invalid TZ';
+                }
+            });
+        }
+
+        // Time Converter Logic
+        function convertTime() {
+            const timeVal = document.getElementById('converterInputTime').value; // e.g. "14:30"
+            const tzVal = document.getElementById('converterSelectRegion').value;
+            const resultEl = document.getElementById('converterResult');
+
+            if (!timeVal || !tzVal) return;
+
+            try {
+                // Construct a date object for today in Taiwan time, then adjust hours & minutes
+                const [hours, minutes] = timeVal.split(':').map(Number);
+                
+                // Get current date string in Taiwan
+                const now = new Date();
+                const twDateStr = now.toLocaleDateString('en-US', { timeZone: 'Asia/Taipei' });
+                
+                // Create target date parser
+                // We want to find what time it is in tzVal when Taiwan is at hours:minutes on twDateStr
+                // A reliable way is to parse an ISO string or use Intl.DateTimeFormat with offsetting
+                
+                // Let's compute offset between Taiwan (UTC+8) and target timezone at this moment
+                const twNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Taipei' }));
+                const targetNow = new Date(now.toLocaleString('en-US', { timeZone: tzVal }));
+                const offsetMs = targetNow.getTime() - twNow.getTime();
+
+                // Base date in Taiwan with input time
+                const baseTwDate = new Date(`${twDateStr} ${hours}:${minutes}:00`);
+                // Apply offset
+                const convertedDate = new Date(baseTwDate.getTime() + offsetMs);
+
+                const resFormatted = convertedDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                const resDateFormatted = convertedDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+                resultEl.innerHTML = `${resFormatted} <span class="text-xs font-normal text-cozy-brown/70">(${resDateFormatted})</span>`;
+            } catch(e) {
+                resultEl.textContent = 'Conversion error';
+            }
+        }
+
+        // Search Filter
+        function filterLocations() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = locations.filter(loc => 
+                loc.name.toLowerCase().includes(query) || 
+                loc.region.toLowerCase().includes(query) ||
+                loc.tag.toLowerCase().includes(query)
+            );
+            renderLocations(filtered);
+        }
+
+        function resetFilter() {
+            document.getElementById('searchInput').value = '';
+            renderLocations(locations);
+            showToast('Reset search filter');
+        }
+
+        // Modal Controls
+        function openAddModal() {
+            document.getElementById('addModal').classList.remove('hidden');
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').classList.add('hidden');
+        }
+
+        function addNewLocation() {
+            const name = document.getElementById('newCountryName').value.trim();
+            const emoji = document.getElementById('newCountryEmoji').value.trim() || '🌍';
+            const tz = document.getElementById('newCountryTz').value.trim();
+
+            if (!name || !tz) {
+                showToast('Please fill in both name and timezone string.');
+                return;
+            }
+
+            try {
+                // Test if timezone is valid
+                new Date().toLocaleString('en-US', { timeZone: tz });
+                
+                const newId = name.toLowerCase().replace(/[^a-z0-9]/g, '_') + '_' + Math.floor(Math.random() * 1000);
+                locations.push({
+                    id: newId,
+                    name: name,
+                    region: tz.split('/')[1] ? tz.split('/')[1].replace('_', ' ') : tz,
+                    emoji: emoji,
+                    timezone: tz,
+                    tag: 'Custom'
+                });
+
+                renderLocations(locations);
+                populateConverterSelect();
+                closeAddModal();
+                showToast(`Successfully added ${name}!`);
+
+                // Clear inputs
+                document.getElementById('newCountryName').value = '';
+                document.getElementById('newCountryEmoji').value = '';
+                document.getElementById('newCountryTz').value = '';
+            } catch(e) {
+                showToast('Invalid IANA Timezone string. (e.g. America/Toronto)');
+            }
+        }
+
+        // Copy Discord Summary
+        function copyDiscordSummary() {
+            let summary = "🌍 **Discord Community World Clock Summary** (Anchor: Taiwan Time GMT+8)\n";
+            const now = new Date();
+
+            locations.forEach(loc => {
+                try {
+                    const locTimeStr = now.toLocaleTimeString('en-US', { timeZone: loc.timezone, hour: '2-digit', minute: '2-digit', hour12: true });
+                    summary += `${loc.emoji} **${loc.name} (${loc.region})**: ${locTimeStr}\n`;
+                } catch(e) {}
+            });
+
+            summary += "\n✨ *Check live times anytime at our server clock tool!*";
+
+            // Fallback copy mechanism for iframe restrictions
+            const textarea = document.createElement('textarea');
+            textarea.value = summary;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('Discord summary copied to clipboard!');
+            } catch (err) {
+                showToast('Failed to copy. Please try again.');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // Toast notification helper
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMsg');
+            msg.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
